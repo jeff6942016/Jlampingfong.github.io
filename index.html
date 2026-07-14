@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jeffrey Lam-Ping-Fong — Cybersecurity</title>
+<meta name="description" content="Cybersecurity portfolio and writeups: detection engineering, application security, and blue team lab work by Jeffrey Lam-Ping-Fong." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:      #0D1320;
+    --ink-2:    #121A2A;
+    --ink-3:    #17223540;
+    --line:     #263248;
+    --line-soft:#1E2A3E;
+    --text:     #E7ECF4;
+    --muted:    #97A4B9;
+    --faint:    #61708A;
+    --signal:   #F2A94B;
+    --signal-dim: rgba(242,169,75,0.13);
+    --signal-line: rgba(242,169,75,0.35);
+    --display: 'Space Grotesk', system-ui, sans-serif;
+    --body: 'IBM Plex Sans', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --maxw: 1080px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(900px 500px at 82% -8%, rgba(242,169,75,0.06), transparent 60%),
+      radial-gradient(700px 500px at 0% 0%, rgba(94,200,216,0.045), transparent 55%);
+    background-attachment: fixed;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--signal); color: #10131a; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+  /* ---------- NAV ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(13,19,32,0.78);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 62px;
+  }
+  .brand {
+    font-family: var(--mono);
+    font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .brand .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--signal);
+    box-shadow: 0 0 0 4px var(--signal-dim);
+  }
+  .nav-links { display: flex; gap: 26px; align-items: center; }
+  .nav-links a {
+    font-size: 14px; color: var(--muted);
+    transition: color .15s ease;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    font-family: var(--mono); font-size: 13px;
+    color: var(--signal) !important;
+    border: 1px solid var(--signal-line);
+    padding: 7px 14px; border-radius: 6px;
+    transition: background .15s ease;
+  }
+  .nav-cta:hover { background: var(--signal-dim); }
+  .nav-toggle { display: none; background: none; border: 0; color: var(--text); cursor: pointer; font-family: var(--mono); font-size: 20px; }
+
+  /* ---------- HERO ---------- */
+  .hero { padding: 96px 0 60px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 13px;
+    color: var(--faint); letter-spacing: 0.04em;
+    text-transform: uppercase; margin-bottom: 22px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before {
+    content: ""; width: 26px; height: 1px; background: var(--signal); opacity: .7;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(2.3rem, 5.4vw, 3.9rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+    max-width: 16ch;
+  }
+  h1 .hl { color: var(--signal); }
+  .lede {
+    font-size: clamp(1.02rem, 1.7vw, 1.22rem);
+    color: var(--muted); max-width: 60ch; margin: 0 0 34px;
+  }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; }
+  .btn {
+    font-family: var(--mono); font-size: 14px; font-weight: 500;
+    padding: 11px 18px; border-radius: 7px;
+    display: inline-flex; align-items: center; gap: 9px;
+    transition: transform .12s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn-primary { background: var(--signal); color: #10131a; }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-ghost { border: 1px solid var(--line); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--signal-line); background: var(--signal-dim); }
+
+  .status {
+    font-family: var(--mono); font-size: 13.5px;
+    color: var(--muted);
+    border: 1px solid var(--line-soft);
+    border-radius: 8px; padding: 13px 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    display: inline-block; max-width: 100%;
+  }
+  .status .k { color: var(--signal); }
+  .status .sep { color: var(--faint); margin: 0 8px; }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding: 64px 0; }
+  .sec-head { margin-bottom: 40px; }
+  .sec-label {
+    font-family: var(--mono); font-size: 13px; color: var(--faint);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;
+  }
+  .sec-title {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.6rem, 3vw, 2.1rem); letter-spacing: -0.01em; margin: 0;
+  }
+
+  /* focus areas */
+  .focus-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line-soft); border: 1px solid var(--line-soft);
+    border-radius: 12px; overflow: hidden;
+  }
+  .focus {
+    background: var(--ink); padding: 26px 22px;
+  }
+  .focus .num { font-family: var(--mono); font-size: 12px; color: var(--signal); margin-bottom: 14px; }
+  .focus h3 { font-family: var(--display); font-weight: 600; font-size: 1.08rem; margin: 0 0 8px; }
+  .focus p { font-size: 14.5px; color: var(--muted); margin: 0; line-height: 1.55; }
+
+  /* work / findings */
+  .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .card {
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    padding: 24px 24px 22px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.018), transparent);
+    display: flex; flex-direction: column;
+    transition: transform .15s ease, border-color .15s ease;
+    position: relative;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--signal-line); }
+  .chip {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--muted);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 4px 11px; align-self: flex-start; margin-bottom: 16px;
+  }
+  .card h3 {
+    font-family: var(--display); font-weight: 600;
+    font-size: 1.24rem; margin: 0 0 10px; letter-spacing: -0.01em;
+  }
+  .card p { color: var(--muted); font-size: 15px; margin: 0 0 18px; flex-grow: 1; }
+  .meta {
+    font-family: var(--mono); font-size: 12.5px; color: var(--faint);
+    border-top: 1px dashed var(--line); padding-top: 14px;
+    line-height: 1.7; word-break: break-word;
+  }
+  .meta .lbl { color: var(--signal); }
+  .card .read {
+    font-family: var(--mono); font-size: 13px; color: var(--signal);
+    margin-top: 16px; display: inline-flex; align-items: center; gap: 7px;
+  }
+  .card .read .arw { transition: transform .15s ease; }
+  .card:hover .read .arw { transform: translateX(4px); }
+
+  /* about */
+  .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start; }
+  .about p { color: var(--muted); margin: 0 0 18px; }
+  .about p:last-child { margin-bottom: 0; }
+  .about strong { color: var(--text); font-weight: 600; }
+  .stack-box { border: 1px solid var(--line-soft); border-radius: 12px; padding: 24px; }
+  .stack-box h4 { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--faint); margin: 0 0 14px; }
+  .stack-box h4:not(:first-child) { margin-top: 22px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+    background: var(--ink-2); border: 1px solid var(--line-soft);
+    padding: 5px 10px; border-radius: 6px;
+  }
+
+  /* contact */
+  .contact { text-align: center; padding: 88px 0 64px; }
+  .contact h2 { font-family: var(--display); font-weight: 600; font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 16px; letter-spacing: -0.01em; }
+  .contact p { color: var(--muted); max-width: 48ch; margin: 0 auto 32px; }
+  .contact-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+  footer {
+    border-top: 1px solid var(--line-soft);
+    padding: 28px 0; text-align: center;
+    font-family: var(--mono); font-size: 12.5px; color: var(--faint);
+  }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .card:hover, .btn-primary:hover { transform: none; }
+  }
+
+  /* responsive */
+  @media (max-width: 860px) {
+    .focus-grid { grid-template-columns: repeat(2, 1fr); }
+    .work-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .nav-links { display: none; }
+    .nav-toggle { display: block; }
+    .nav-links.open {
+      display: flex; position: absolute; top: 62px; left: 0; right: 0;
+      flex-direction: column; gap: 0; background: var(--ink-2);
+      border-bottom: 1px solid var(--line); padding: 8px 0;
+    }
+    .nav-links.open a { padding: 12px 28px; }
+    .nav-links.open .nav-cta { margin: 8px 28px; text-align: center; }
+  }
+  @media (max-width: 520px) {
+    .focus-grid { grid-template-columns: 1fr; }
+    body { font-size: 16px; }
+    .hero { padding: 64px 0 40px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a href="#top" class="brand"><span class="dot"></span>jlam-ping-fong</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">≡</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#focus">Focus</a>
+        <a href="#work">Writeups</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <!-- EDIT: point this at your resume PDF (e.g. /resume.pdf) or LinkedIn -->
+        <a href="#contact" class="nav-cta">Resume</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="wrap">
+      <div class="eyebrow reveal">Cybersecurity · Seneca Polytechnic · Open to co-op</div>
+      <h1 class="reveal">I build detections, break <span class="hl">applications</span>, and write up every finding.</h1>
+      <p class="lede reveal">Fourth-year Honours Bachelor of Information Technology student specializing in cybersecurity. Hands-on lab work across blue team, detection engineering, and application security, documented the way a real engagement would be.</p>
+      <div class="cta-row reveal">
+        <!-- EDIT these three URLs -->
+        <a href="#work" class="btn btn-primary">View writeups <span>→</span></a>
+        <a href="https://github.com/YOUR-USERNAME" class="btn btn-ghost">GitHub</a>
+        <a href="https://linkedin.com/in/jeffrey-lam-ping-fong-07a649321" class="btn btn-ghost">LinkedIn</a>
+      </div>
+      <div class="status reveal">
+        <span class="k">current</span> &nbsp;WAS705 DevSecOps pipeline<span class="sep">·</span>DPI905 CCNA Security<span class="sep">·</span>English / French
+      </div>
+    </div>
+  </header>
+
+  <section id="focus">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-label">// what I work on</div>
+        <h2 class="sec-title">Focus areas</h2>
+      </div>
+      <div class="focus-grid reveal">
+        <div class="focus">
+          <div class="num">01</div>
+          <h3>Detection Engineering</h3>
+          <p>Writing and tuning detection rules, mapping coverage to MITRE ATT&amp;CK, and validating with Atomic Red Team.</p>
+        </div>
+        <div class="focus">
+          <div class="num">02</div>
+          <h3>Blue Team &amp; SIEM</h3>
+          <p>Wazuh, Splunk, and ELK for log analysis, Suricata IDS, and Sysmon-driven endpoint visibility.</p>
+        </div>
+        <div class="focus">
+          <div class="num">03</div>
+          <h3>Application Security</h3>
+          <p>Web and API testing against the OWASP Top 10 with Burp Suite, ZAP, and structured, report-ready findings.</p>
+        </div>
+        <div class="focus">
+          <div class="num">04</div>
+          <h3>Network &amp; Infra</h3>
+          <p>CCNA Security track, Active Directory attack and defense, hardening, and Docker-based lab environments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-label">// selected work</div>
+        <h2 class="sec-title">Writeups &amp; projects</h2>
+      </div>
+      <div class="work-grid">
+
+        <!-- CARD: duplicate this block to add more. Point the wrapping <a> at your writeup. -->
+        <a class="card reveal" href="#">
+          <span class="chip">DevSecOps</span>
+          <h3>Security testing pipeline for Penpot</h3>
+          <p>Built an automated DevSecOps pipeline covering secret management and security unit testing. Surfaced a default master key, a disabled secure-session cookie, and missing transport security headers.</p>
+          <div class="meta"><span class="lbl">stack</span> Docker · Burp Suite · Syft SBOM · testssl.sh · ZAP</div>
+          <span class="read">Read the writeup <span class="arw">→</span></span>
+        </a>
+
+        <a class="card reveal" href="#">
+          <span class="chip">Recon</span>
+          <h3>API reconnaissance on bug bounty targets</h3>
+          <p>External recon across public bug bounty scopes, documented in a professional report. Findings included publicly accessible S3 buckets and internal header disclosure.</p>
+          <div class="meta"><span class="lbl">stack</span> Amass · Gobuster · FFUF · Shodan · S3Scanner · Nikto</div>
+          <span class="read">Read the writeup <span class="arw">→</span></span>
+        </a>
+
+        <a class="card reveal" href="#">
+          <span class="chip">Detection Lab</span>
+          <h3>MS17-010 (EternalBlue) detection</h3>
+          <p>Simulated and detected SMB exploitation in a Kali/Windows lab. Produced a Scapy PCAP generator, custom Suricata rules, and a Wazuh-integrated analysis script.</p>
+          <div class="meta"><span class="lbl">stack</span> Scapy · Suricata · Wazuh · MITRE ATT&amp;CK</div>
+          <span class="read">Read the writeup <span class="arw">→</span></span>
+        </a>
+
+        <a class="card reveal" href="#">
+          <span class="chip">Blue Team</span>
+          <h3>Wazuh SIEM tuning with Atomic Red Team</h3>
+          <p>Customized detection rules, tuned performance, and built validation test cases mapped to ATT&amp;CK techniques against a controlled attack simulation.</p>
+          <div class="meta"><span class="lbl">stack</span> Wazuh · Atomic Red Team · Sysmon · MITRE ATT&amp;CK</div>
+          <span class="read">Read the writeup <span class="arw">→</span></span>
+        </a>
+
+        <a class="card reveal" href="#">
+          <span class="chip">App Pentest</span>
+          <h3>Web application pentest (Juice Shop)</h3>
+          <p>Worked through BOLA, mass assignment, JWT manipulation, GraphQL introspection, and template injection, documenting each finding with impact and remediation.</p>
+          <div class="meta"><span class="lbl">stack</span> Burp Suite · OWASP Top 10 · JWT · GraphQL</div>
+          <span class="read">Read the writeup <span class="arw">→</span></span>
+        </a>
+
+        <a class="card reveal" href="#">
+          <span class="chip">Network Security</span>
+          <h3>Enterprise network security lab</h3>
+          <p>Six-VM topology with an Ubuntu router, Windows Server AD/CA/DNS, and Docker application hosts. Configured firewalls, IDS, GPOs, MFA, VPN, and centralized logging.</p>
+          <div class="meta"><span class="lbl">stack</span> nftables · Suricata · Active Directory · OpenVPN · Splunk</div>
+          <span class="read">Read the writeup <span class="arw">→</span></span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-label">// background</div>
+        <h2 class="sec-title">About</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about reveal">
+          <p>I am a fourth-year cybersecurity student at <strong>Seneca Polytechnic</strong> in North York, Ontario. Most of my time goes into hands-on lab work: standing up realistic environments, breaking them, defending them, and writing the whole thing up so the findings are actually usable.</p>
+          <p>I have lived and studied across <strong>Mauritius and Canada</strong>, and I work in both <strong>English and French</strong>. That international background gives me a globally informed perspective and comfort working across different teams and contexts.</p>
+          <p>Alongside the technical work, I have built communication, collaboration, and leadership skills through <strong>peer mentoring, volunteering, and community engagement</strong>, including as a member of Seneca's Cyber Café Club. I am currently looking for a co-op placement where I can contribute to real security work.</p>
+        </div>
+        <div class="stack-box reveal">
+          <h4>Offensive</h4>
+          <div class="tags">
+            <span class="tag">Burp Suite</span><span class="tag">Nmap</span><span class="tag">Nuclei</span><span class="tag">ZAP</span><span class="tag">FFUF</span><span class="tag">Metasploit</span>
+          </div>
+          <h4>Defensive</h4>
+          <div class="tags">
+            <span class="tag">Suricata</span><span class="tag">Wazuh</span><span class="tag">Splunk</span><span class="tag">ELK</span><span class="tag">MISP</span><span class="tag">Tenable</span>
+          </div>
+          <h4>Infrastructure</h4>
+          <div class="tags">
+            <span class="tag">Active Directory</span><span class="tag">Docker</span><span class="tag">Ansible</span><span class="tag">PKI</span><span class="tag">AWS</span><span class="tag">Kali</span>
+          </div>
+          <h4>Foundations</h4>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">Bash</span><span class="tag">SQL</span><span class="tag">MITRE ATT&amp;CK</span><span class="tag">OWASP</span><span class="tag">CVSS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <h2 class="reveal">Let's talk co-op.</h2>
+      <p class="reveal">If you are hiring for a blue team, detection engineering, application security, GRC, or IT infrastructure role, I would welcome the conversation.</p>
+      <div class="contact-row reveal">
+        <!-- EDIT these -->
+        <a href="mailto:jlam-ping-fong@myseneca.ca" class="btn btn-primary">Email me <span>→</span></a>
+        <a href="https://linkedin.com/in/jeffrey-lam-ping-fong-07a649321" class="btn btn-ghost">LinkedIn</a>
+        <a href="https://github.com/YOUR-USERNAME" class="btn btn-ghost">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">© <span id="yr"></span> Jeffrey Lam-Ping-Fong · Built and hosted by hand.</div>
+  </footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // mobile nav
+  var toggle = document.querySelector('.nav-toggle');
+  var links = document.getElementById('navLinks');
+  toggle.addEventListener('click', function () {
+    var open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  links.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { links.classList.remove('open'); toggle.setAttribute('aria-expanded', false); });
+  });
+
+  // reveal on scroll
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+</script>
+</body>
+</html>
