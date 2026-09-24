@@ -346,7 +346,7 @@
     <div class="stats">
       <div class="stat"><div class="num">Security+</div><div class="lbl">CompTIA SY0-701, certified</div></div>
       <div class="stat"><div class="num">SC-300</div><div class="lbl">Microsoft IAM, in progress</div></div>
-      <div class="stat"><div class="num">5+</div><div class="lbl">End-to-end IAM lab projects</div></div>
+      <div class="stat"><div class="num">7</div><div class="lbl">End-to-end IAM lab projects</div></div>
       <div class="stat"><div class="num">2027</div><div class="lbl">Honours BIT, Seneca (Aug)</div></div>
     </div>
   </div>
@@ -454,7 +454,7 @@
     <div class="sec-head reveal">
       <span class="sec-kicker">// Portfolio</span>
       <h2 class="sec-title">Featured IAM projects</h2>
-      <p class="sec-desc">End-to-end labs, each built, documented, and published on GitHub, that demonstrate the identity lifecycle from provisioning through detection to remediation.</p>
+      <p class="sec-desc">End-to-end labs, each built, documented, and published on GitHub, that demonstrate the identity lifecycle from provisioning through detection to remediation. Five ship together as <b>entra-identity-platform</b>, structured as one program: <b>build</b> (hybrid sync) to <b>operate</b> (Graph automation) to <b>govern</b> (CIEM, governance, PIM).</p>
     </div>
     <div class="proj-grid">
 
@@ -473,31 +473,38 @@
       </div>
 
       <div class="proj reveal">
-        <div class="proj-head"><span class="proj-badge">Automation</span><span class="proj-status"><span class="d"></span>Complete</span></div>
-        <h3>Microsoft Graph PowerShell Toolkit</h3>
-        <p>A working <b>JML automation toolkit</b> of six PowerShell scripts against a lab Entra tenant: bulk user creation, group assignment, <b>group reconciliation to a desired state</b> (removing privilege creep), access reporting, audit-log export, and enterprise offboarding (disable, revoke sessions, strip groups, remove license, hide from GAL).</p>
-        <div class="proj-tags"><span class="tag">Microsoft Graph</span><span class="tag">PowerShell</span><span class="tag">Entra ID</span><span class="tag">JML</span></div>
-      </div>
-
-      <div class="proj reveal">
-        <div class="proj-head"><span class="proj-badge">CIEM</span><span class="proj-status"><span class="d"></span>Complete</span></div>
-        <h3>Azure RBAC Least-Privilege Lab</h3>
-        <p>Cloud infrastructure entitlement management on a dedicated Azure subscription. Seeded <b>four over-provisioning findings</b>, detected them with <b>AzureActivity KQL</b>, then remediated to least privilege with PIM just-in-time access, scope reduction, access reviews, and a custom RBAC role.</p>
-        <div class="proj-tags"><span class="tag">Azure RBAC</span><span class="tag">CIEM</span><span class="tag">PIM</span><span class="tag">Log Analytics</span><span class="tag">KQL</span></div>
-      </div>
-
-      <div class="proj reveal">
-        <div class="proj-head"><span class="proj-badge">Hybrid Identity</span><span class="proj-status"><span class="d"></span>Complete</span></div>
+        <div class="proj-head"><span class="proj-badge">Build · Hybrid Identity</span><span class="proj-status"><span class="d"></span>Complete</span></div>
         <h3>Hybrid Identity Cloud Sync &amp; RCA</h3>
         <p>An on-prem AD domain controller syncing into Entra via <b>Cloud Sync with password hash sync</b>. When the provisioning agent couldn't sustain its connection to Azure Service Bus, I diagnosed it to an environmental network fault, delivered as a documented <b>root-cause-analysis</b> write-up.</p>
         <div class="proj-tags"><span class="tag">Entra Cloud Sync</span><span class="tag">Active Directory</span><span class="tag">PHS</span><span class="tag">RCA</span></div>
       </div>
 
       <div class="proj reveal">
-        <div class="proj-head"><span class="proj-badge">In progress</span><span class="proj-status wip"><span class="d"></span>Building</span></div>
-        <h3>Identity Governance &amp; PIM Deep-Dive</h3>
-        <p>Expanding the portfolio toward SC-300's heaviest domains: <b>entitlement-management access packages</b> with approval workflows, an access-review campaign, and <b>PIM</b> for Entra roles, Azure resources, and groups, plus Okta and AWS IAM Access Analyzer labs for non-Microsoft breadth.</p>
-        <div class="proj-tags"><span class="tag">Entitlement Mgmt</span><span class="tag">Access Reviews</span><span class="tag">Okta</span><span class="tag">AWS IAM</span></div>
+        <div class="proj-head"><span class="proj-badge">Operate · Automation</span><span class="proj-status"><span class="d"></span>Complete</span></div>
+        <h3>Microsoft Graph PowerShell Toolkit</h3>
+        <p>A working <b>JML automation toolkit</b> of six PowerShell scripts against a lab Entra tenant: bulk user creation, group assignment, <b>group reconciliation to a desired state</b> (removing privilege creep), access reporting, audit-log export, and enterprise offboarding (disable, revoke sessions, strip groups, remove license, hide from GAL).</p>
+        <div class="proj-tags"><span class="tag">Microsoft Graph</span><span class="tag">PowerShell</span><span class="tag">Entra ID</span><span class="tag">JML</span></div>
+      </div>
+
+      <div class="proj reveal">
+        <div class="proj-head"><span class="proj-badge">Govern · CIEM</span><span class="proj-status"><span class="d"></span>Complete</span></div>
+        <h3>Azure RBAC Least-Privilege Lab</h3>
+        <p>Cloud infrastructure entitlement management on a dedicated Azure subscription. Seeded <b>four over-provisioning findings</b>, detected them with <b>AzureActivity KQL</b>, then remediated to least privilege with PIM just-in-time access, scope reduction, access reviews, and a custom RBAC role.</p>
+        <div class="proj-tags"><span class="tag">Azure RBAC</span><span class="tag">CIEM</span><span class="tag">PIM</span><span class="tag">Log Analytics</span><span class="tag">KQL</span></div>
+      </div>
+
+      <div class="proj reveal">
+        <div class="proj-head"><span class="proj-badge">Govern · Governance</span><span class="proj-status"><span class="d"></span>Complete</span></div>
+        <h3>Entra Identity Governance Lab</h3>
+        <p>SC-300's heaviest domain, built end to end: <b>entitlement-management access packages</b> for self-service access with approval workflows, and a full <b>access-review campaign</b> run from launch to auto-applied results, so entitlements are requested, approved, and recertified through governed processes rather than ad-hoc grants.</p>
+        <div class="proj-tags"><span class="tag">Entitlement Mgmt</span><span class="tag">Access Packages</span><span class="tag">Access Reviews</span><span class="tag">Entra ID P2</span></div>
+      </div>
+
+      <div class="proj reveal">
+        <div class="proj-head"><span class="proj-badge">Govern · PIM</span><span class="proj-status"><span class="d"></span>Complete</span></div>
+        <h3>PIM Privileged Access Deep-Dive</h3>
+        <p>Just-in-time privileged access across <b>Entra roles, Azure resources, and groups</b>: eligible-vs-active assignments, a named-approver activation workflow, <b>Conditional Access authentication context</b> forcing step-up MFA on activation, remediated PIM alerts, and an access review of eligible privileged assignments with auto-apply.</p>
+        <div class="proj-tags"><span class="tag">PIM</span><span class="tag">JIT Access</span><span class="tag">CA Auth Context</span><span class="tag">Access Reviews</span><span class="tag">Entra ID P2</span></div>
       </div>
 
     </div>
