@@ -6,10 +6,13 @@
 <title>Jeffrey Lam-Ping-Fong — Cybersecurity</title>
 <meta name="description" content="Jeffrey Lam-Ping-Fong — cybersecurity student across detection engineering, penetration testing, incident response, threat hunting, and identity. Portfolio of hands-on security labs.">
 <meta name="theme-color" content="#0a0708">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/spacegrotesk-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+  /* self-hosted variable fonts — no third-party requests */
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/inter-var.woff2) format('woff2')}
+  @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:500 700;font-display:swap;src:url(fonts/spacegrotesk-var.woff2) format('woff2')}
+  @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 500;font-display:swap;src:url(fonts/jetbrainsmono-var.woff2) format('woff2')}
   :root{
     --black:#070506;
     --bg:#0a0708;
@@ -45,6 +48,10 @@
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
   .mono{font-family:'JetBrains Mono',monospace}
   .accent{color:var(--accent-soft)}
+  /* Space Grotesk carries the display voice; Inter stays for body/UI */
+  .brand,h1.hero-title,.sec-title,.contact h2,.exp-role,.proj h3,.focus h3,.stat .num{
+    font-family:'Space Grotesk','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
 
   /* ---------- BROWSER SURFACES ---------- */
   ::selection{background:rgba(229,72,77,.28);color:#fff}
@@ -703,16 +710,26 @@
       el.innerHTML = html;
     }
 
-    if (reduceMotion){ return; }
+    var done = false;
+    function finalize(){
+      if (done) return;
+      done = true;
+      el.innerHTML = 'I build, break, and <span class="accent-word">defend</span> systems.';
+    }
+
+    if (reduceMotion){ finalize(); return; }
 
     var revealed = 0, frame = 0;
     (function tick(){
+      if (done) return;
       frame++;
       if (frame % 2 === 0) revealed += 1;
       render(revealed);
       if (revealed <= full.length){ requestAnimationFrame(tick); }
-      else { el.innerHTML = 'I build, break, and <span class="accent-word">defend</span> systems.'; }
+      else { finalize(); }
     })();
+    /* safety net: guarantee the headline resolves even if rAF is throttled (background tab) */
+    setTimeout(finalize, 3000);
   })();
 </script>
 </body>
